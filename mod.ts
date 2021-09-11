@@ -2,8 +2,10 @@
 
 self.addEventListener("fetch", (event) => {
   let dest = "https://github.com/tani/sky.deno.dev";
-  if (new URL(event.request.url).pathname !== "/") {
-    dest = event.request.url + '?dts';
+  const url = new URL(event.request.url)
+  if (url.pathname !== "/") {
+    url.host = "cdn.skypack.dev"
+    url.searchParams.set("dts", "")
   }
-  event.respondWith(Response.redirect(dest, 302));
+  event.respondWith(Response.redirect(url, 302));
 });
